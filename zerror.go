@@ -28,11 +28,25 @@ func (s Severity) String() string {
 	return severities[s]
 }
 
+var defaultSeverity = SeverityInfo
+
+func SetDefaultSeverity(s Severity) {
+	defaultSeverity = s
+}
+
+func GetDefaultSeverity() Severity {
+	return defaultSeverity
+}
+
 // time format in the error message
 var timeFormat = time.RFC3339
 
 func SetTimeFormat(format string) {
 	timeFormat = format
+}
+
+func GetTimeFormat() string {
+	return timeFormat
 }
 
 // Constant Notations are for formatting the error printable string
@@ -53,10 +67,8 @@ func SetMessageFormat(format string) {
 	messageFormat = format
 }
 
-var defaultSeverity = SeverityInfo
-
-func SetDefaultSeverity(s Severity) {
-	defaultSeverity = s
+func GetMessageFormat() string {
+	return messageFormat
 }
 
 type ZError struct {

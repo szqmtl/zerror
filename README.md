@@ -69,3 +69,5 @@ output:
 ```text
 /Users/szqmtl/goproj/src/experience/zerrorTest.go:23 -  Warn: example 4, zerror(27 Jul 19 12:09 -0400)
 ```
+
+Take a look the test file for more and complete examples.
