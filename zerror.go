@@ -1,3 +1,4 @@
+// Package zerror is an enhancement error library
 package zerror
 
 import (
@@ -8,6 +9,7 @@ import (
 	"time"
 )
 
+// Enum type Severity is the message severity level: Fatal, Warn, and Info
 type Severity int
 
 const (
@@ -33,6 +35,7 @@ func SetTimeFormat(format string) {
 	timeFormat = format
 }
 
+// Constant Notations are for formatting the error printable string
 const (
 	NotationTime     = "{time}"
 	NotationSeverity = "{severity}"
@@ -42,7 +45,7 @@ const (
 	NotationFile     = "{file}"
 )
 
-// global format should compose of any of the options: {time}, {message}, {func}, {line}, and {file}
+// global format should compose of any of the notation options
 var messageFormat = fmt.Sprintf("%s %s: %s(%s:%s)",
 	NotationTime, NotationSeverity, NotationMessage, NotationFunc, NotationLine)
 

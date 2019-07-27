@@ -31,15 +31,16 @@ output:
 ```text
 2019-07-27T11:17:34-04:00  Info : example 1, zerror(main.main:10)
 ```
+We could also use **NewFatal/NewWarn/NewInfo** function to create different severity instance.
 
 **String** function formats the error information, and generates a printable string. **Severity** is aligned in 5 letters.
 
 ### Change severity globally
 
 ```go
-	zerror.SetDefaultSeverity(zerror.SeverityWarn)
-	e = zerror.New("example 2, %s", "zerror")
-	fmt.Printf("%v\n", e.String())
+zerror.SetDefaultSeverity(zerror.SeverityWarn)
+e = zerror.New("example 2, %s", "zerror")
+fmt.Printf("%v\n", e.String())
 ```
 output:
 ```text
