@@ -57,11 +57,11 @@ func SetDefaultSeverity(s Severity) {
 }
 
 type ZError struct {
-	Severity      Severity
+	severity      Severity
 	originalError error
-	Message       string
-	CallerFrame   runtime.Frame
-	Created       time.Time
+	message       string
+	callerFrame   runtime.Frame
+	created       time.Time
 }
 
 func New(format string, a ...interface{}) *ZError {
@@ -80,6 +80,30 @@ func NewInfo(format string, a ...interface{}) *ZError {
 	return newZError(SeverityInfo, RuntimeFrameIndirectCallerIndex, format, a...)
 }
 
+func (z *ZError) SetSeverity(s Severity) {
+	z.severity = s
+}
+
+func (z *ZError) GetSeverity() Severity {
+	return z.severity
+}
+
+func (z *ZError) SetMessage(m string) {
+	z.message = m
+}
+
+func (z *ZError) GetMessage() string {
+	return z.message
+}
+
+func (z *ZError) GetFrame() runtime.Frame {
+	return z.callerFrame
+}
+
+func (z *ZError) GetCreated() time.Time {
+	return z.created
+}
+
 func (z *ZError) SetError(err error) {
 	z.originalError = err
 }
@@ -89,16 +113,16 @@ func (z *ZError) GetError() error {
 }
 
 func (z *ZError) Error() string {
-	return z.Message
+	return z.message
 }
 
 func (z ZError) String() string {
-	msg := strings.ReplaceAll(messageFormat, NotationTime, z.Created.Format(timeFormat))
-	msg = strings.ReplaceAll(msg, NotationSeverity, fmt.Sprintf("%5.5s", z.Severity.String()))
-	msg = strings.ReplaceAll(msg, NotationMessage, z.Message)
-	msg = strings.ReplaceAll(msg, NotationFile, z.CallerFrame.File)
-	msg = strings.ReplaceAll(msg, NotationFunc, z.CallerFrame.Function)
-	msg = strings.ReplaceAll(msg, NotationLine, fmt.Sprintf("%d", z.CallerFrame.Line))
+	msg := strings.ReplaceAll(messageFormat, NotationTime, z.created.Format(timeFormat))
+	msg = strings.ReplaceAll(msg, NotationSeverity, fmt.Sprintf("%-5v", z.severity.String()))
+	msg = strings.ReplaceAll(msg, NotationMessage, z.message)
+	msg = strings.ReplaceAll(msg, NotationFile, z.callerFrame.File)
+	msg = strings.ReplaceAll(msg, NotationFunc, z.callerFrame.Function)
+	msg = strings.ReplaceAll(msg, NotationLine, fmt.Sprintf("%d", z.callerFrame.Line))
 	return msg
 }
 
@@ -108,11 +132,11 @@ func newZError(s Severity, index int, format string, a ...interface{}) *ZError {
 		msg = fmt.Sprintf(format, a...)
 	}
 	return &ZError{
-		Severity:      s,
+		severity:      s,
 		originalError: errors.New(msg),
-		Message:       msg,
-		CallerFrame:   getFrame(index),
-		Created:       time.Now(),
+		message:       msg,
+		callerFrame:   getFrame(index),
+		created:       time.Now(),
 	}
 }
 
